@@ -1,4 +1,4 @@
-### Node + MongoDB + GraphQL with basic authentication
+# Node + MongoDB + GraphQL with basic authentication
 
 A simple GraphQL authentication example using Node and Mongodb.
 
