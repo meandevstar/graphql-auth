@@ -1,11 +1,21 @@
-# Node + MongoDB + GraphQL with basic authentication
+# Node + React + MongoDB + GraphQL with basic authentication
 
-A simple GraphQL authentication example using Node and Mongodb.
+A simple GraphQL authentication example using Node, React and Mongodb.
 
 ## Installation
 ```bash
 $ git clone 
 $ cd graphql-auth
+```
+- Server
+```bash
+$ cd client
+$ npm install
+```
+
+- Client
+```bash
+$ cd client
 $ npm install
 ```
 
