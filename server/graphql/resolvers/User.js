@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
 
 const includeAccessToken = (user) => {
-    const payload = {id: user.id, username: user.username};
+    const payload = {id: user.id, name: user.name};
     let userObject = user.toJSON();
     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
     userObject['token'] = token;

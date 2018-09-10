@@ -34,6 +34,7 @@ module.exports = {
                 }
             },
             resolve(parent, fields) {
+                console.log(fields)
                 return UserResolver.authenticate(fields);
             }
         }

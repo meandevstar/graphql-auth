@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const logger = require('morgan');
 const fs = require('fs');
 const dotenv = require('dotenv');
@@ -46,7 +47,7 @@ app.use(logger('dev'));
 
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 5000}));
 app.use(bodyParser.json({limit: '50mb'}));
-
+app.use(cors());
 
 /**
  * GraphQL server
@@ -56,9 +57,17 @@ app.use('/graphql', jwt({
     secret: process.env.JWT_SECRET_KEY,
     requestProperty: 'auth',
     credentialsRequired: false,
+    getToken: function (req) {
+        var token = req.body.access_token || req.query.access_token || req.headers['x-access-token'] ;
+        if (token) {
+            return token;
+        } 
+        return null;
+    }
 }));
 
 app.use('/graphql', async (req, res, done) => {
+    console.log(req.headers, req.auth, req.body)
     var userId = (req.auth && req.auth.id ) ? req.auth.id : undefined;
     const user = ( userId ) ? await User.findById(userId): undefined;
     req.context = {
@@ -66,7 +75,7 @@ app.use('/graphql', async (req, res, done) => {
     }
     done();
 });
-app.use('/graphql', expressGraphQL(req => ({
+app.use('/graphql', bodyParser.json(), expressGraphQL(req => ({
         schema: GraphQLSchema,
         context: req.context,
         graphiql: process.env.NODE_ENV === 'development',
